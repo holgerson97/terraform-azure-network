@@ -1,3 +1,23 @@
+variable "enabled" {
+
+    default = true
+      
+}
+
+variable "namespace" {
+
+    default = "test-ns"
+  
+}
+
+variable "tags" {
+
+    default = { "Environment" = "Test" }
+  
+}
+
+variable "location" {}
+
 variable "vnet_address_space" {
 
     description = "Adress space of your virtual network."
@@ -7,6 +27,21 @@ variable "vnet_address_space" {
 
     sensitive = false
   
+}
+
+variable "vnet" {
+
+    type = object({
+        number_of_vnets = number
+        address_spaces = list(list(string))
+    })
+
+    default = {
+        number_of_vnets = 1
+        address_spaces = [ ["10.10.0.0/16"] ]
+    }
+
+
 }
 
 variable "cost_management" {
