@@ -41,7 +41,6 @@ variable "vnet" {
         address_spaces = [ ["10.10.0.0/16"] ]
     }
 
-
 }
 
 variable "cost_management" {
@@ -52,6 +51,45 @@ variable "cost_management" {
 
     sensitive = false
   
+}
+
+variable "cm_recurrence_type" {
+
+    description = "Set how the costs for the resource group should be exported."
+
+    type = string
+    default = "Monthly"
+    
+    sensitive = false
+
+    #TODO add validation
+
+}
+
+variable "cm_recurrence_period_start" {
+
+    description = "Set the date when to start the recurrence period."
+
+    type = string
+    default = "2021-05-01T00:00:00Z"
+    
+    sensitive = false
+
+    #TODO add validation
+
+}
+
+variable "cm_recurrence_period_end" {
+
+    description = "Set the date when to end the recurrence period."
+
+    type = string
+    default = "2021-05-01T00:00:00Z"
+    
+    sensitive = false
+
+    # TODO add validation
+
 }
 
 variable "ddos_protection" {

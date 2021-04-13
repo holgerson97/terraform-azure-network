@@ -2,7 +2,7 @@ resource "azurerm_resource_group" "main" {
 
     count = var.enabled == true ? 1 : 0
 
-    name     = "${var.namespace}-rg"
+    name     = var.namespace
     location = var.location
 
     tags = var.tags
@@ -13,7 +13,7 @@ resource "azurerm_virtual_network" "main" {
   
     count = var.enabled == true ? lookup(var.vnet, "number_of_vnets") : 0
 
-    name                = "${var.namespace}-vnet"
+    name                = "${var.namespace}-${sum([count.index, 1])}"
     location            = join("", azurerm_resource_group.main.*.location)
     resource_group_name = join("", azurerm_resource_group.main.*.name)
 
@@ -29,7 +29,7 @@ resource "azurerm_virtual_network" "main" {
             enable = var.ddos_protection
         }
     }
-
+ 
     tags = var.tags
 
     depends_on = [
