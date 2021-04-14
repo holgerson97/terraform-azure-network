@@ -10,37 +10,113 @@ variable "namespace" {
   
 }
 
-variable "tags" {
-
-    default = { "Environment" = "Test" }
-  
-}
-
 variable "location" {}
 
-variable "vnet_address_space" {
+variable "vnet_address_spaces" {
 
-    description = "Adress space of your virtual network."
+    description = "Virtual network address space."
 
     type = list(string)
-    default = [ "10.10.0.0/16" ]
+
+    sensitive = false
+
+}
+
+variable "subnet_address_spaces" {
+
+    description = "List of subnet address spaces"
+
+    type = list(string)
+
+    sensitive = false
+
+}
+
+variable "dns_servers" {
+
+    description = "List of DNS servers."
+
+    type = list(string)
+
+    sensitive = false
+
+}
+
+variable "vm_protection" {
+
+    description = "Enables protection for VMs inside the virtual network."
+
+    type = bool
+    default = false
 
     sensitive = false
   
 }
 
-variable "vnet" {
+variable "ddos_protection" {
 
-    type = object({
-        number_of_vnets = number
-        address_spaces = list(list(string))
-    })
+    description = "Enables DDOS protection for the virtual network."
 
-    default = {
-        number_of_vnets = 1
-        address_spaces = [ ["10.10.0.0/16"] ]
-    }
+    type = bool
+    default = false
 
+    sensitive = false
+  
+}
+
+variable "subnets_with_nat_gw" {
+
+    description = "Subnets that are attached to NAT gateways."
+
+    type    = list(string)
+    default = null
+
+    sensitive = false
+
+}
+
+variable "public_ip_method" {
+
+    description = "Specify allocation mehtod for NAT gateways."
+
+    type = string
+    default = "Static"
+
+    sensitive = false
+  
+}
+
+variable "public_ip_sku" {
+
+    description = "Specify SKU for public ip addresses."
+
+    type    = string
+    default = "Standard"
+
+    sensitive = false
+  
+}
+
+variable "public_ip_version" {
+
+    description = "IP version of public IP addresses."
+
+    type = string
+    default = "IPv4"
+
+    sensitive = false
+  
+}
+
+variable "public_ip_idle_timeouts" {
+
+    description = "Specify TCP idle timouts for public ips."
+
+    type = number
+    default = 5
+
+    sensitive = false
+  
 }
 
 variable "cost_management" {
@@ -92,35 +168,13 @@ variable "cm_recurrence_period_end" {
 
 }
 
-variable "ddos_protection" {
+variable "tags" {
 
-    description = "If true will create a DDOS portection plan for your virtual network in your ressource group. "
+    description = "Add tags to your resources."
 
-    type = bool
-    default = false
-
-    sensitive = false
-  
-}
-
-variable "dns_servers" {
-
-    description = "Specify list of DNS servers, that are going to be used inside your virtual network."
-
-    type = list(string)
+    type   = map
     default = null
 
-    sensitive = false
-  
-}
-
-variable "vm_protection" {
-
-    description = "Enables protection of vms inside this virtual network."
-
-    type = bool
-    default = false
-    
     sensitive = false
   
 }
