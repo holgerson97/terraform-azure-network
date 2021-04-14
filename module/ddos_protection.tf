@@ -1,6 +1,6 @@
 resource "azurerm_network_ddos_protection_plan" "main" {
 
-    count = var.ddos_protection == true ? 1 : 0
+    count = var.enabled  && var.ddos_protection ? 1 : 0
 
     name                = "${var.namespace}-ddos"
     location            = join("", azurerm_resource_group.main.*.location)
