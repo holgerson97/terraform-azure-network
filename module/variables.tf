@@ -4,29 +4,27 @@ variable "enabled" {
       
 }
 
-variable "namespace" {
+variable "resourcegroup" {
+    
+    description = "Name of your resourcegroup, if not set this module creates a new one."
 
-    default = "test-ns"
-  
-}
-
-variable "location" {}
-
-variable "vnet_address_spaces" {
-
-    description = "Virtual network address space."
-
-    type = list(string)
+    type = string
+    default = null
 
     sensitive = false
 
 }
+variable "namespace" {}
+variable "location" {}
 
-variable "subnet_address_spaces" {
+################################ VNET ################################
 
-    description = "List of subnet address spaces"
+variable "vnet_address_spaces" {
+
+    description = "Virtual network address spaces."
 
     type = list(string)
+    default = ["10.10.0.0/16"]
 
     sensitive = false
 
@@ -37,6 +35,7 @@ variable "dns_servers" {
     description = "List of DNS servers."
 
     type = list(string)
+    default = [ "10.10.1.1", "10.10.1.2" ]
 
     sensitive = false
 
@@ -63,6 +62,65 @@ variable "ddos_protection" {
     sensitive = false
   
 }
+
+############################### Subnet ################################
+
+variable "subnet_address_spaces" {
+
+    description = "List of subnet address spaces."
+
+    type = list(string)
+    default = [ "10.10.1.0/24" ]
+
+    sensitive = false
+
+}
+
+variable "enforce_private_link_endpoint_network_policies" {
+    
+    description = "Enable NSG for your private link endpoint."
+
+    type = bool
+    default = false
+
+    sensitive = false
+  
+}
+
+variable "enforce_private_link_service_network_policies" {
+
+    description = "Enable NSG for the private link service."
+
+    type = bool
+    default = false
+
+    sensitive = false
+
+}
+
+variable "service_endpoints" {
+
+    description = "The list of Service endpoints to associate with the subnet."
+  
+    type = list(string)
+    default = null
+
+    sensitive = false
+
+}
+
+variable "service_endpoint_policy_ids" {
+
+    description = "The list of IDs of Service Endpoint Policies to associate with the subnet."
+
+    type = list(string)
+    default = null
+    
+    sensitive = false
+
+}
+
+
 
 variable "subnets_with_nat_gw" {
 
