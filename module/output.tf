@@ -1,0 +1,5 @@
+output "resource_group_name" {
+
+    value = var.resourcegroup == null ? azurerm_resource_group.main.name : var.resourcegroup
+  
+}
