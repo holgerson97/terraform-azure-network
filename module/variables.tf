@@ -1,122 +1,127 @@
 variable "enabled" {
 
-    default = true
-      
+  default = true
+
 }
 
 variable "resourcegroup" {
-    
-    description = "Name of your resourcegroup, if not set this module creates a new one."
 
-    type = string
-    default = null
+  description = "Name of your resourcegroup, if not set this module creates a new one."
 
-    sensitive = false
+  type    = string
+  default = null
+
+  sensitive = false
 
 }
-variable "namespace" {}
+variable "namespace" {
+
+  type    = string
+  default = "default-name"
+
+}
 variable "location" {}
 
 ################################ VNET ################################
 
 variable "vnet_address_spaces" {
 
-    description = "Virtual network address spaces."
+  description = "Virtual network address spaces."
 
-    type = list(string)
-    default = ["10.10.0.0/16"]
+  type    = list(string)
+  default = ["10.10.0.0/16"]
 
-    sensitive = false
+  sensitive = false
 
 }
 
 variable "dns_servers" {
 
-    description = "List of DNS servers."
+  description = "List of DNS servers."
 
-    type = list(string)
-    default = [ "10.10.1.1", "10.10.1.2" ]
+  type    = list(string)
+  default = ["10.10.1.1", "10.10.1.2"]
 
-    sensitive = false
+  sensitive = false
 
 }
 
 variable "vm_protection" {
 
-    description = "Enables protection for VMs inside the virtual network."
+  description = "Enables protection for VMs inside the virtual network."
 
-    type = bool
-    default = false
+  type    = bool
+  default = false
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "ddos_protection" {
 
-    description = "Enables DDOS protection for the virtual network."
+  description = "Enables DDOS protection for the virtual network."
 
-    type = bool
-    default = false
+  type    = bool
+  default = false
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 ############################### Subnet ################################
 
 variable "subnet_address_spaces" {
 
-    description = "List of subnet address spaces."
+  description = "List of subnet address spaces."
 
-    type = list(string)
-    default = [ "10.10.1.0/24" ]
+  type    = list(string)
+  default = ["10.10.1.0/24"]
 
-    sensitive = false
+  sensitive = false
 
 }
 
-variable "enforce_private_link_endpoint_network_policies" {
-    
-    description = "Enable NSG for your private link endpoint."
+variable "private_link_endpoint_policies" {
 
-    type = bool
-    default = false
+  description = "Enable NSG for your private link endpoint."
 
-    sensitive = false
-  
+  type    = bool
+  default = false
+
+  sensitive = false
+
 }
 
-variable "enforce_private_link_service_network_policies" {
+variable "private_link_service_policies" {
 
-    description = "Enable NSG for the private link service."
+  description = "Enable NSG for the private link service."
 
-    type = bool
-    default = false
+  type    = bool
+  default = false
 
-    sensitive = false
+  sensitive = false
 
 }
 
 variable "service_endpoints" {
 
-    description = "The list of Service endpoints to associate with the subnet."
-  
-    type = list(string)
-    default = null
+  description = "The list of Service endpoints to associate with the subnet."
 
-    sensitive = false
+  type    = list(string)
+  default = null
+
+  sensitive = false
 
 }
 
 variable "service_endpoint_policy_ids" {
 
-    description = "The list of IDs of Service Endpoint Policies to associate with the subnet."
+  description = "The list of IDs of Service Endpoint Policies to associate with the subnet."
 
-    type = list(string)
-    default = null
-    
-    sensitive = false
+  type    = list(string)
+  default = null
+
+  sensitive = false
 
 }
 
@@ -124,115 +129,115 @@ variable "service_endpoint_policy_ids" {
 
 variable "subnets_with_nat_gw" {
 
-    description = "Subnets that are attached to NAT gateways."
+  description = "Subnets that are attached to NAT gateways."
 
-    type    = list(string)
-    default = null
+  type    = list(string)
+  default = null
 
-    sensitive = false
+  sensitive = false
 
 }
 
 variable "public_ip_method" {
 
-    description = "Specify allocation mehtod for NAT gateways."
+  description = "Specify allocation mehtod for NAT gateways."
 
-    type = string
-    default = "Static"
+  type    = string
+  default = "Static"
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "public_ip_sku" {
 
-    description = "Specify SKU for public ip addresses."
+  description = "Specify SKU for public ip addresses."
 
-    type    = string
-    default = "Standard"
+  type    = string
+  default = "Standard"
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "public_ip_version" {
 
-    description = "IP version of public IP addresses."
+  description = "IP version of public IP addresses."
 
-    type = string
-    default = "IPv4"
+  type    = string
+  default = "IPv4"
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "public_ip_idle_timeouts" {
 
-    description = "Specify TCP idle timouts for public ips."
+  description = "Specify TCP idle timouts for public ips."
 
-    type = number
-    default = 5
+  type    = number
+  default = 5
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "cost_management" {
 
-    description = "If true will create resource to export cost managemnet for this resource group."
-    type = bool
-    default = false
+  description = "If true will create resource to export cost managemnet for this resource group."
+  type        = bool
+  default     = false
 
-    sensitive = false
-  
+  sensitive = false
+
 }
 
 variable "cm_recurrence_type" {
 
-    description = "Set how the costs for the resource group should be exported."
+  description = "Set how the costs for the resource group should be exported."
 
-    type = string
-    default = "Monthly"
-    
-    sensitive = false
+  type    = string
+  default = "Monthly"
 
-    #TODO add validation
+  sensitive = false
+
+  #TODO add validation
 
 }
 
 variable "cm_recurrence_period_start" {
 
-    description = "Set the date when to start the recurrence period."
+  description = "Set the date when to start the recurrence period."
 
-    type = string
-    default = "2021-05-01T00:00:00Z"
-    
-    sensitive = false
+  type    = string
+  default = "2021-05-01T00:00:00Z"
 
-    #TODO add validation
+  sensitive = false
+
+  #TODO add validation
 
 }
 
 variable "cm_recurrence_period_end" {
 
-    description = "Set the date when to end the recurrence period."
+  description = "Set the date when to end the recurrence period."
 
-    type = string
-    default = "2021-05-01T00:00:00Z"
-    
-    sensitive = false
+  type    = string
+  default = "2021-05-01T00:00:00Z"
 
-    # TODO add validation
+  sensitive = false
+
+  # TODO add validation
 
 }
 
 variable "tags" {
 
-    description = "Add tags to your resources."
+  description = "Add tags to your resources."
 
-    type   = map
-    default = null
+  type    = map(any)
+  default = null
 
-    sensitive = false
-  
+  sensitive = false
+
 }
