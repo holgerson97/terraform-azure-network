@@ -1,18 +1,21 @@
 package test
 
 import (
+	"path/filepath"
 	"testing"
-	
-	"github.com/stretchr/testify/assert"
+
 	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
+	"github.com/stretchr/testify/assert"
 )
+
+var terraExamples, _ = filepath.Abs("../examples/")
 
 func TestInitAndApplyAndIdempotent(t *testing.T) {
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 
-		TerraformDir: "/home/nilscarstensen/repositorys/terraform-azure-network",
+		TerraformDir: terraExamples,
 	})
 
 	defer terraform.Destroy(t, terraformOptions)
@@ -27,13 +30,13 @@ func TestAzureResources(t *testing.T) {
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 
-		TerraformDir: "/home/nilscarstensen/repositorys/terraform-azure-network",
+		TerraformDir: terraExamples,
 	})
 
 	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.InitAndApply(t, terraformOptions)
-	
+
 	t.Run("RG", func(t *testing.T) {
 
 		resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
