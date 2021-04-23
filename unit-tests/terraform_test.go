@@ -1,9 +1,10 @@
 package test
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
-	"os"
+	"fmt"
 
 	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -25,7 +26,7 @@ func TestInitAndApplyAndIdempotent(t *testing.T) {
 
 }
 
-func TestAzureResources(t *testing.T) {
+func TestAzureResourcesRequired(t *testing.T) {
 
 	subscriptionID := os.Getenv("TF_VAR_ARM_SUBSCRIPTION_ID")
 
@@ -38,12 +39,44 @@ func TestAzureResources(t *testing.T) {
 
 	terraform.InitAndApply(t, terraformOptions)
 
+	resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
+	virtualNetworkName := terraform.Output(t, terraformOptions, "virtual_network_name")
+	dnsServersIp := terraform.OutputList(t, terraformOptions, "dns_servers_ip")
+	subnetAddressPrefixes := terraform.OutputList(t, terraformOptions, "subnet_address_prefixes")
+
 	t.Run("RG", func(t *testing.T) {
 
-		resourceGroupName := terraform.Output(t, terraformOptions, "resource_group_name")
-
 		exists := azure.ResourceGroupExists(t, resourceGroupName, subscriptionID)
-		assert.True(t, exists, "Resource group does not exist")
+		assert.True(t, exists, "Resource group does not exist.")
+
+	})
+	t.Run("VNET", func(t *testing.T) {
+
+		exists := azure.VirtualNetworkExists(t, virtualNetworkName, resourceGroupName, subscriptionID)
+		assert.True(t, exists, "Virtual Network does note exist.")
+
+	})
+
+	t.Run("DNS_Servers", func(t *testing.T) {
+
+		exists := azure.GetVirtualNetworkDNSServerIPs(t, virtualNetworkName, resourceGroupName, subscriptionID)
+		assert.Equal(t, exists, dnsServersIp, "DNS servers IP are not in desired state.")
+
+	})
+	t.Run("Subnets", func(t *testing.T) {
+
+		subnets := []string{}
+
+		for key, value := range subnetAddressPrefixes {
+
+			subnets = append(value)
+
+		}
+
+		fmt.Printf("%v", subnets)
+
+		exists := azure.GetVirtualNetworkSubnets(t, virtualNetworkName, resourceGroupName, subscriptionID)
+		assert.Equal(t, exists, subnets, "Subnet address prefixes are not in desired state.")
 
 	})
 }
