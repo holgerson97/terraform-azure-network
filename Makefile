@@ -25,11 +25,23 @@ golint: ## run go lint on the source files
 govet:  ## run go vet on the source files
 	go vet ./...
 
-gotest: ## test units files
+go-all: gofmt golint govet
+
+gotest-basic: ## test units files
+	cd unit-tests/
+	go test terraform_test.go -run TestInitAndApplyAndIdempotent -v
+
+gotest-required:
+	cd unit-tests/
+	go test terraform_test.go -run TestAzureResourcesRequired -v
+
+gotest-optional:
+	cd unit-tests/
+	go test terraform_test.go -run TestAzureResourcesOptional -v
+
+gotest-all:
 	cd unit-tests/
 	go test -v
-
-go-all: gofmt golint govet gotest 
 
 terrafmt:  ## format terrafrom source files
 	terraform fmt -recursive
