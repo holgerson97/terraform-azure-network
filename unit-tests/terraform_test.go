@@ -4,7 +4,6 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-	"fmt"
 
 	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -65,18 +64,21 @@ func TestAzureResourcesRequired(t *testing.T) {
 	})
 	t.Run("Subnets", func(t *testing.T) {
 
+		refactoredOutput := []string{}
+		for value, _ := range subnetAddressPrefixes {
+			fmt.Println(value)
+			refactoredOutput := append(refactoredOutput, value)
+		}
+
+		exists := azure.GetVirtualNetworkSubnets(t, virtualNetworkName, resourceGroupName, subscriptionID)
 		subnets := []string{}
+		for _, value := range exists {
 
-		for key, value := range subnetAddressPrefixes {
-
-			subnets = append(value)
+			subnets = append(subnets, value)
 
 		}
 
-		fmt.Printf("%v", subnets)
-
-		exists := azure.GetVirtualNetworkSubnets(t, virtualNetworkName, resourceGroupName, subscriptionID)
-		assert.Equal(t, exists, subnets, "Subnet address prefixes are not in desired state.")
+		assert.Equal(t, subnetAddressPrefixes, subnets, "Subnet address prefixes are not in desired state.")
 
 	})
 }
