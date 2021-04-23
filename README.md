@@ -1,4 +1,3 @@
-![Terraform](https://github.com/{##############}/actions/workflows/checks.yml/badge.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 # Terraform Azure Network
 Terraform module to deploy a simple resource group with network configuration. In most cases, this module is going to be used to get a starting point from where you can attach your other modules too. Check the tables of content to see the set of variables and outputs.
