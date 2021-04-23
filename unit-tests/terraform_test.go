@@ -3,6 +3,7 @@ package test
 import (
 	"path/filepath"
 	"testing"
+	"os"
 
 	"github.com/gruntwork-io/terratest/modules/azure"
 	"github.com/gruntwork-io/terratest/modules/terraform"
@@ -26,7 +27,7 @@ func TestInitAndApplyAndIdempotent(t *testing.T) {
 
 func TestAzureResources(t *testing.T) {
 
-	subscriptionID := ""
+	subscriptionID := os.Getenv("TF_VAR_ARM_SUBSCRIPTION_ID")
 
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 
