@@ -44,14 +44,14 @@ terravalidate: ## valdiate terraform configuration
 terraApplyAndDestroy: ## Init, Apply and Destroy Terraform configuration
 	cd examples
 	terraform init
-	terraform apply --auto-approve
+	terraform apply --auto-approves
 	terraform destroy --auto-approve
 
 terra-all: terrafmt terralint terravalidate terraApplyAndDestroy
 
 clean:
 	go clean
-	rm -rf *.hcl
-	rm -rf .terraform
-	rm -rf terraform.tfstate
-	rm -rf terraform.tfstate.backup
+	find -name "*hcl" -delete
+	find -type d -name ".terraform" -exec rm -rf {} +
+	find -name "*tfstate" -delete
+	find -name "*tfstate.backup" -delete
