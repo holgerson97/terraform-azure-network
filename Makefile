@@ -31,19 +31,19 @@ go-all: gofmt golint govet
 
 gotest-basic: ## test units files
 	cd unit-tests/
-	go test terraform_test.go -run TestInitAndApplyAndIdempotent -v
+	go test terraform_test.go -run TestInitAndApplyAndIdempotent -v -timeout 60min
 
 gotest-required:
 	cd unit-tests/
-	go test terraform_test.go -run TestAzureResourcesRequired -v
+	go test terraform_test.go -run TestAzureResourcesRequired -v -timeout 60min
 
 gotest-optional:
 	cd unit-tests/
-	go test terraform_test.go -run TestAzureResourcesOptional -v
+	go test terraform_test.go -run TestAzureResourcesOptional -v -timeout 60min
 
 gotest-all:
 	cd unit-tests/
-	go test -v
+	go test -v -timeout 60min
 
 terrafmt:  ## format terrafrom source files
 	terraform fmt -recursive
