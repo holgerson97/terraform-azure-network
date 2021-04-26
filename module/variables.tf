@@ -75,7 +75,7 @@ variable "subnet_address_spaces" {
   description = "List of subnet address spaces."
 
   type    = list(string)
-  default = ["10.10.1.0/24"]
+  default = ["10.10.1.0/24", "10.10.2.0/24"]
 
   sensitive = false
 
