@@ -4,7 +4,7 @@ variable "enabled" {
 
 }
 
-variable "resourcegroup" {
+variable "resourcegroup_name" {
 
   description = "Name of your resourcegroup, if not set this module creates a new one."
 
@@ -20,7 +20,16 @@ variable "namespace" {
   default = "default-name"
 
 }
-variable "location" {}
+variable "location" {
+
+  description = "Location for your resources."
+
+  type    = string
+  default = null
+
+  sensitive = false
+
+}
 
 ################################ VNET ################################
 
