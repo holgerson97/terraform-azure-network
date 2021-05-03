@@ -13,10 +13,10 @@ output "virtual_network_name" {
 output "subnet_address_prefixes" {
 
   value = module.network.subnet_address_prefixes
-  
+
 }
 
-output "dns_servers_ip"{
+output "dns_servers_ip" {
 
   value = module.network.dns_servers_ip
 
