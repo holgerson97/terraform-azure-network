@@ -49,3 +49,5 @@ resource "azurerm_nat_gateway" "main" {
 
   tags = var.tags
 }
+
+## TODO Finish and implement
