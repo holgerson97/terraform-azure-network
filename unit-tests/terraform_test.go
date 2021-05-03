@@ -65,9 +65,18 @@ func TestAzureResourcesRequired(t *testing.T) {
 	t.Run("Subnets", func(t *testing.T) {
 
 		refactoredOutput := []string{}
-		for value, _ := range subnetAddressPrefixes {
-			fmt.Println(value)
-			refactoredOutput := append(refactoredOutput, value)
+		for _, value := range subnetAddressPrefixes {
+
+			if value[0] == '[' {
+				value = value[1:]
+			}
+
+			if last := len(value) - 1; last >= 0 && value[last] == ']' {
+				value = value[:last]
+			}
+
+			refactoredOutput = append(refactoredOutput, value)
+
 		}
 
 		exists := azure.GetVirtualNetworkSubnets(t, virtualNetworkName, resourceGroupName, subscriptionID)
@@ -78,7 +87,7 @@ func TestAzureResourcesRequired(t *testing.T) {
 
 		}
 
-		assert.Equal(t, subnetAddressPrefixes, subnets, "Subnet address prefixes are not in desired state.")
+		assert.Equal(t, refactoredOutput, subnets, "Subnet address prefixes are not in desired state.")
 
 	})
 }
