@@ -16,10 +16,8 @@ Terraform module to deploy a simple resource group with network configuration. I
 # Requirements
 | Software     |  Version  |
 | :--------    | :-------- |
-| terraform    | >=0.14.0  |
+| terraform    | >=0.15.0  |
 | azruerm      | >=2.42.0  |
-
-**Note: Already tested on Terraform '0.15.0', works like expected.**
 
 &nbsp;
 # Getting started
