@@ -1,7 +1,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group
 resource "azurerm_resource_group" "main" {
 
-  count = var.enabled && var.resourcegroup == null ? 1 : 0
+  count = var.enabled && var.resourcegroup_name == null ? 1 : 0
 
   name     = var.namespace
   location = var.location
@@ -15,9 +15,9 @@ resource "azurerm_virtual_network" "main" {
 
   count = var.enabled ? 1 : 0
 
-  name                = "${var.namespace}-vnet"
-  location            = var.resourcegroup == null ? join("", azurerm_resource_group.main.*.location) : var.location
-  resource_group_name = var.resourcegroup == null ? join("", azurerm_resource_group.main.*.name) : var.resourcegroup
+  name                = "${var.namespace}-vnet-${random_id.vnet_name[0].id}"
+  resource_group_name = var.resourcegroup_name != null ? one(data.azurerm_resource_group.main[*].name) : one(azurerm_resource_group.main[*].name)
+  location            = var.resourcegroup_name != null ? one(data.azurerm_resource_group.main[*].location) : one(azurerm_resource_group.main[*].location)
 
   address_space         = var.vnet_address_spaces
   dns_servers           = var.dns_servers
@@ -28,7 +28,7 @@ resource "azurerm_virtual_network" "main" {
     for_each = var.ddos_protection == false ? [] : [1]
 
     content {
-      id     = join("", azurerm_network_ddos_protection_plan.main.*.id)
+      id     = one(azurerm_network_ddos_protection_plan.main[*].id)
       enable = var.ddos_protection
     }
   }
@@ -42,9 +42,9 @@ resource "azurerm_subnet" "main" {
 
   count = var.enabled ? length(var.subnet_address_spaces) : 0
 
-  name                 = "${var.namespace}-subnet-${sum([count.index, 1])}"
-  resource_group_name  = var.resourcegroup == null ? join("", azurerm_resource_group.main.*.name) : var.resourcegroup
-  virtual_network_name = join("", azurerm_virtual_network.main.*.name)
+  name                 = "${var.namespace}-subnet-${random_id.vnet_name[0].id}-${sum([count.index, 1])}"
+  resource_group_name  = var.resourcegroup_name != null ? one(data.azurerm_resource_group.main[*].name) : one(azurerm_resource_group.main[*].name)
+  virtual_network_name = one(azurerm_virtual_network.main[*].name)
 
   address_prefixes = tolist([element(var.subnet_address_spaces, count.index)])
 
