@@ -53,7 +53,7 @@ module "network" {
 | Variable                          |  Type        | Description                                                                          | Default                    |
 | :-------------------------------- | :----------: | :----------------------------------------------------------------------------------- | :------------------------- |
 | `enabled`                         |  bool        | Enables the module to create resources.                                              | true                       |
-| `resourcegroup`                   | string       | Provide the name of your resourcegroup. If null module creates one.                  | null                       |
+| `resourcegroup_name`              | string       | Provide the name of your resourcegroup. If null module creates one.                  | null                       |
 | `namespace`                       | string       | Naming prefix for resources deployed by this module.                                 | default-name               |
 | `location`                        | string       | Location where to deploy.                                                            | West Eruope                |
 | `vnet_address_spaces`             | list(string) | List of CIDRs you want your VNET to provide.                                         | ["10.10.0.0./16]           |
@@ -67,11 +67,22 @@ module "network" {
 | `service_endpoint_policy_ids`     | list(string) | List of subenets do depoy inside your VNET.                                          | null                       |
 
 # Outputs
-| Name                              |  Value                                                                |
-| :-------------------------------- | :-------------------------------------------------------------------: | 
-| `resource_group_name`             | Name of the resource group resources were deployed to by this module. | 
-
-
+| Name                                  |  Value                                                                       |
+| :------------------------------------ | :--------------------------------------------------------------------------: | 
+| `resource_group_name`                 | Name of the resource group resources were deployed to by this module.        | 
+| `virtual_network_id`                  | ID of the virtual network that is going to be attached to the rg.            | 
+| `virtual_network_name`                | Name of the virtual network that is going to be attached to the rg.          |
+| `virtual_network_resource_group_name` | RG of the virtual network that is going to be attached to the rg.            | 
+| `virtual_network_location`            | Location of the virtual network that is going to be attached to the rg.      | 
+| `virtual_network_address_space`       | Address space of the virtual network that is going to be attached to the rg. | 
+| `virtual_network_guid`                | GUID of the resource group resources were deployed to by this module.        | 
+| `subnet_address_id`                   | IDs of the subnets that are attached to the virtual network.                 |
+| `subnet_address_name`                 | Names of the subnets that are attached to the virtual network.               | 
+| `subnet_address_resource_group_name`  | RG of the subnets that are attached to the virtual network.                  | 
+| `subnet_address_virtual_network_name` | VNET name of the subnets that are attached to the virtual network.           | 
+| `subnet_address_prefix`               | Address prefix of the subnets that are attached to the virtual network.      | 
+| `subnet_address_prefixes`             | Address prefixes of the subnets that are attached to the virtual network.    | 
+| `dns_servers_ip`                      | IPs of DNS server that are deployed inside your VNET.                        | 
 
 &nbsp;
 ## Contributing
